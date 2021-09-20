@@ -65,7 +65,7 @@ class Antrian extends My_Controller {
                         $numRow++;
                     }
                     //simpan data ke database
-                    $this->db->empty_table('antrian');
+                    // $this->db->empty_table('antrian');
                     $this->app->simpan($save);
  
                     //tutup spout reader
@@ -88,5 +88,24 @@ class Antrian extends My_Controller {
 		 $this->Mypage('simulasi', $data);
 
 	}
+
+
+	 public function add()
+    {
+        $this->form_validation->set_rules('hari', 'hari', 'required');
+        if($this->form_validation->run()==FALSE){
+            $this->session->set_flashdata('error',"Data Gagal Di Tambahkan");
+            redirect('antrian/simulasi');
+        }else{
+            $data=array(
+                "hari"=>$_POST['hari'],
+                "loket"=>$_POST['loket'],
+                "loket2"=>$_POST['loket2']
+            );
+            $this->db->insert('antrian',$data);
+            $this->session->set_flashdata('sukses',"Data Berhasil Disimpan");
+            redirect('antrian/simulasi');
+        }
+    }
 	
 }

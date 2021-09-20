@@ -26,6 +26,11 @@
                                             <button type="button" class="btn btn-primary waves-effect waves-light">
                                     <i class="fa fa-plus"></i> Import Data Simulasi</button>
                                 </a>
+
+                                 <a data-toggle="modal" data-target="#bb2">
+                                            <button type="button" class="btn btn-primary waves-effect waves-light">
+                                    <i class="fa fa-plus"></i> Tambah Data Manual</button>
+                                </a>
                                 
                                         </div>
                                     </div>
@@ -296,6 +301,59 @@
                     </center>
 
   <br><br>
+                    </div>
+                    </div>
+                  </div>
+
+
+                    <!-- Modal -->
+                  <div class="modal fade text-left" id="bb2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header bg-primary">
+                      <h6 class="modal-title"><font color='white'>Form Tambah Pertanyaan Kuesioner</font></h6>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                      <form action="<?php echo site_url('antrian/add'); ?>" method="post">
+                      <div class="modal-body">
+                        
+
+                         <fieldset class="form-group floating-label-form-group">
+                          <label for="email">Simulasi hari ke-</label>
+                          <select name="hari" id="select" required class="custom-select">
+                  <option value="">-- Hari ke --</option>
+                  
+                  <?php foreach ($simulasi as $k): ?>
+                  <option value="<?php echo $k->hari ?>"><?php echo $k->hari ?></option>
+                  <?php endforeach; ?>
+                </select>
+                        </fieldset>
+
+                        <fieldset class="form-group floating-label-form-group">
+                          <label for="email">Jumlah Pengunjung Loket 1</label>
+                          <input type="number" name="loket" class="form-control  round <?php echo form_error('loket') ? 'is-invalid':'' ?>" id="email" required oninvalid="this.setCustomValidity('Harap Diisi...')" oninput="setCustomValidity('')">
+                       <font color="red"><?php echo form_error('nm_periode') ?></font>
+                        </fieldset>
+
+                        <fieldset class="form-group floating-label-form-group">
+                          <label for="email">Jumlah Pengunjung Loket 2</label>
+                          <input type="number" name="loket2" class="form-control  round <?php echo form_error('loket2') ? 'is-invalid':'' ?>" id="email" required oninvalid="this.setCustomValidity('Harap Diisi...')" oninput="setCustomValidity('')">
+                       <font color="red"><?php echo form_error('nm_periode') ?></font>
+                        </fieldset>
+                         
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary mr-1"  data-dismiss="modal" value="close">
+                                    <i class="fas fa-times"></i>&nbsp;Keluar
+                                </button>
+                                <button type="submit"  class="btn btn-primary">
+                                    <i class="fa fa-save"></i>&nbsp;Simpan
+                                </button>
+                        
+                      </div>
+                      </form>
                     </div>
                     </div>
                   </div>
