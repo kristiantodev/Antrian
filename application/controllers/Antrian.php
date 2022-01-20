@@ -52,10 +52,9 @@ class Antrian extends My_Controller {
                             $cells = $row->getCells();
  
                             $data = array(
-                    "hari"=> $cells[0],
-                    "nama"=> $cells[1],
-                    "loket"=> $cells[2],
-                    "loket2"=> $cells[3]
+                    "day"=> $cells[0],
+                    "id_loket"=> $cells[1],
+                    "jumlah_pengunjung"=> $cells[2]
                             );
  
                             //tambahkan array $data ke $save
@@ -84,6 +83,7 @@ class Antrian extends My_Controller {
 
          $data=array(
             "simulasi"=>$query->result(),
+            "lokets"=>$this->db->get('tbl_loket')->result(),
         );
 		 $this->Mypage('simulasi', $data);
 
@@ -92,20 +92,72 @@ class Antrian extends My_Controller {
 
 	 public function add()
     {
-        $this->form_validation->set_rules('hari', 'hari', 'required');
+        $this->form_validation->set_rules('day', 'day', 'required');
         if($this->form_validation->run()==FALSE){
             $this->session->set_flashdata('error',"Data Gagal Di Tambahkan");
             redirect('antrian/simulasi');
         }else{
             $data=array(
-                "hari"=>$_POST['hari'],
-                "loket"=>$_POST['loket'],
-                "loket2"=>$_POST['loket2']
+                "day"=>$_POST['day'],
+                "id_loket"=>$_POST['id_loket'],
+                "jumlah_pengunjung"=>$_POST['jumlah_pengunjung']
             );
-            $this->db->insert('antrian',$data);
+            $this->db->insert('tbl_antrian',$data);
             $this->session->set_flashdata('sukses',"Data Berhasil Disimpan");
             redirect('antrian/simulasi');
         }
     }
+
+
+    public function hapus($id)
+    {
+        if($id==""){
+            $this->session->set_flashdata('error',"Data Gagal Di Hapus");
+            redirect('antrian/simulasi');
+        }else{
+            $this->db->where('id_loket', $id);
+            $this->db->delete('tbl_loket');
+            $this->session->set_flashdata('sukses',"Data Loket Berhasil Dihapus");
+            redirect('antrian/simulasi');
+        }
+    }
+
+
+    public function edit()
+    {
+        $this->form_validation->set_rules('loket', 'loket', 'required');
+        if($this->form_validation->run()==FALSE){
+            $this->session->set_flashdata('error',"Data Gagal Di Tambahkan");
+            redirect('antrian/simulasi');
+        }else{
+            $data=array(
+                "loket"=>$_POST['loket']
+            );
+            $this->db->where('id_loket', $_POST['id_loket'] );
+            $this->db->update('tbl_loket',$data);
+            $this->session->set_flashdata('sukses',"Loket Berhasil Diedit");
+            redirect('antrian/simulasi');
+        }
+    }
+
+
+
+    public function addAntrian()
+    {
+        $this->form_validation->set_rules('loket', 'loket', 'required');
+        if($this->form_validation->run()==FALSE){
+            $this->session->set_flashdata('error',"Data Gagal Di Tambahkan");
+            redirect('antrian/simulasi');
+        }else{
+            $data=array(
+                "loket"=>$_POST['loket']
+            );
+            $this->db->insert('tbl_loket',$data);
+            $this->session->set_flashdata('sukses',"Data Berhasil Disimpan");
+            redirect('antrian/simulasi');
+        }
+    }
+
+
 	
 }

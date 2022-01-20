@@ -31,6 +31,11 @@
                                             <button type="button" class="btn btn-primary waves-effect waves-light">
                                     <i class="fa fa-plus"></i> Tambah Data Manual</button>
                                 </a>
+
+                                 <a data-toggle="modal" data-target="#modal-tambah-loket">
+                                            <button type="button" class="btn btn-primary waves-effect waves-light">
+                                    <i class="fa fa-plus"></i> Tambah Loket</button>
+                                </a>
                                 
                                         </div>
                                     </div>
@@ -66,186 +71,60 @@
     
                                                 <tbody>
 
-                                    <?php $no=1; $total=0; $rata2; $jumlah=0; foreach ($simulasi as $s): ?>
-                                     <?php 
-                                       $total=$total+$s->total;
-                                       $jumlah=$jumlah+1;
-                                     ?>
-                                                  <tr align="center">
+                                    
+                                         <tr align="center">
 
-                                                    <td><?php echo $s->hari ?></td>
-                                                    <td><?php echo $s->totalLoket1 ?></td>
-                                                     <td><?php echo $s->totalLoket2 ?></td>
-                                                    <td><?php echo $s->total ?></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                     <td></td>
+                                                    <td></td>
                                                     
                                                   </tr>
-                                      <?php endforeach; ?>
-                                                  <tr align="center">
-                                                    <td colspan="3"><b>Jumlah</b></td>
-                                                    <td><b><?php echo $total ?></b></td>
-                                                  </tr>
-                                                  <tr align="center">
-                                                    <td colspan="3"><b>Rata-rata</b></td>
-                                                    <td><b><?php echo number_format($total/$jumlah,2) ?></b></td>
-                                                  </tr>
+                              
+                                                  
                                                 </tbody>
                                             </table>
 
-
-                                            Dari data hasil pengamatan dapat diketahui :
-                                            <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                                <thead bgcolor="">
-                                                <tr align="right">
-                                    <th align="right">Rata-rata tingkat kedatangan (Mean arrival rate)</th>
-                                    <td align="center"><?php echo number_format($total/$jumlah,0) ?></td>
-                                </tr>
-                                <tr align="right">
-                                    <th align="right">Rata-rata tingkat pelayanan (Mean server rate)</th>
-                                    <td align="center"><?php echo number_format(($total/$jumlah)/2,0) ?></td>
-                                </tr>
-
-                                <tr align="right">
-                                    <th align="right">Lama waktu pengamatan (M)</th>
-                                    <td align="center">2 Jam/Hari</td>
-                                </tr>
-                                                </thead>
-                                              </table>
-
-
                                           </div>
 
-                                          <?php
-                                          $lamda = number_format($total/$jumlah,0);
-                                          $miu = number_format(($lamda)/2,2);
-
-                                           $pembagi = (1 +(0.5*(($lamda/$miu)*2)))*((2*$miu)/(2*$miu)-$lamda);
-                                           $Po = 1/$pembagi;
-
-                                           if ($Po < 0) {
-                                             $Po = $Po*-1;
-                                           }
-
-                                           $Ls1 = $lamda*$miu*(pow($lamda/$miu, 2));
-                                           $Ls2 = pow((2*$miu)-$miu, 2);
-                                           $Ls3 = $Po + ($lamda/$miu);
-
-                                           $Ls = number_format(($Ls1/$Ls2)*$Ls3, 2);
-                                           $Lq = $Ls/($lamda/$miu);
-
-                                           $Ws = $Ls/$miu;
-                                           $Wq = $Ls/$lamda;
-                                           ?>
-
                                            <div class="col-lg-5 col-md-6 col-5">  
+
+                                               <div class="alert alert-ku" role="alert">
+                                                <center>
+                                                    <h6><b><font color="#0285b4"><i class='fas fa-exclamation-circle'></i>&nbsp;Loket</font></b></h6>
+                                                 </center>
+                                                </div>
+
+                                            <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead bgcolor="">
+                                      
+                                                <tr align="center">
+                                    <th><b>No.</b></th>
+                                    <th><b>Loket</b></th>
+                                    <th><b>Aksi</b></th>
+                                </tr>
+
+                                                </thead>
+    
+    
+                                                <tbody>
+<?php $no=1; foreach ($lokets as $loket): ?>
+                                                  <tr align="center">
+
+                                                    <td><?php echo $no++; ?></td>
+                                                    <td><?php echo $loket->loket ?></td>
+                                                     <td>
+                                                       
+                                                       <a data-toggle="modal" data-target="#modal-edit<?php echo $loket->id_loket ?>" class="btn btn-primary waves-effect waves-light"><span data-toggle="tooltip" data-original-title="Ubah"><font color="white"><i class="fas fa-pencil-alt"></i></font></span></a>
+                 <a onclick="deleteConfirm('<?php echo site_url('antrian/hapus/'.$loket->id_loket); ?>')" href="#!" data-toggle="tooltip" class="btn btn-danger waves-effect waves-light tombol-hapus" data-original-title="Hapus"><span class="icon-label" data-toggle="modal" data-target="#modal-danger"><i class="fa fa-trash"></i> </span><span class="btn-text"></span></a>
+
+                                                     </td>
+                                                    
+                                                  </tr>
+             <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
                                              
-             <div class="col-xl-12">
-                                    <div class="card bg-secondary mini-stat position-relative">
-                                        <div class="card-body">
-                                            <div class="mini-stat-desc">
-                                                <h6 class="verti-label text-white-50">Antrian</h6>
-                                                <div class="text-white">
-                                                    <h6 class="mt-0 text-white-50">Probabilitas Tidak Ada Pengunjung (Po)</a></h6>
-                                                    <h4 class="mb-3 mt-0"><b> 
-
-
-                                                    <?php echo number_format($Po,2) ?> %</b></h4>
-                                                    
-                                                </div>
-                                                <div class="mini-stat-icon">
-                                                    <i class="fas fa-balance-scale display-2"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                 <div class="col-xl-12">
-                                    <div class="card bg-primary mini-stat position-relative">
-                                        <div class="card-body">
-                                            <div class="mini-stat-desc">
-                                                <h6 class="verti-label text-white-50">Antrian</h6>
-                                                <div class="text-white">
-                                                    <h6 class="mt-0 text-white-50">Rata-rata Pengunjung dalam Sistem (Ls)</a></h6>
-                                                    <h4 class="mb-3 mt-0"><b> 
-
-
-                                                    <?php echo number_format($Ls,2) ?> Orang</b></h4>
-                                                    
-                                                </div>
-                                                <div class="mini-stat-icon">
-                                                    <i class="fas fa-balance-scale display-2"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-xl-12">
-                                    <div class="card bg-secondary mini-stat position-relative">
-                                        <div class="card-body">
-                                            <div class="mini-stat-desc">
-                                                <h6 class="verti-label text-white-50">Antrian</h6>
-                                                <div class="text-white">
-                                                    <h6 class="mt-0 text-white-50">Rata-rata Pengunjung Menunggu dalam Antrian (Lq)</a></h6>
-                                                    <h4 class="mb-3 mt-0"><b> 
-
-
-                                                    <?php echo number_format($Lq,2) ?> Orang</b></h4>
-                                                    
-                                                </div>
-                                                <div class="mini-stat-icon">
-                                                    <i class="fas fa-balance-scale display-2"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                 <div class="col-xl-12">
-                                    <div class="card bg-primary mini-stat position-relative">
-                                        <div class="card-body">
-                                            <div class="mini-stat-desc">
-                                                <h6 class="verti-label text-white-50">Antrian</h6>
-                                                <div class="text-white">
-                                                    <h6 class="mt-0 text-white-50">Rata-rata waktu yang dihabiskan seorang pengunjung di dalam sistem (Ws)</h6>
-                                                    <h4 class="mb-3 mt-0"><b> 
-
-
-                                                    <?php echo number_format($Ws,2) ?> Menit</b></h4>
-                                                    
-                                                </div>
-                                                <div class="mini-stat-icon">
-                                                    <i class="fas fa-balance-scale display-2"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                 <div class="col-xl-12">
-                                    <div class="card bg-secondary mini-stat position-relative">
-                                        <div class="card-body">
-                                            <div class="mini-stat-desc">
-                                                <h6 class="verti-label text-white-50">Antrian</h6>
-                                                <div class="text-white">
-                                                    <h6 class="mt-0 text-white-50">Rata-rata waktu yang dihabiskan oleh seorang pelanggan di dalam antrian (Wq)</a></h6>
-                                                    <h4 class="mb-3 mt-0"><b> 
-
-
-                                                    <?php echo number_format($Wq,2) ?> Menit</b></h4>
-                                                    
-                                                </div>
-                                                <div class="mini-stat-icon">
-                                                    <i class="fas fa-balance-scale display-2"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
 
                           
@@ -322,25 +201,32 @@
 
                          <fieldset class="form-group floating-label-form-group">
                           <label for="email">Simulasi hari ke-</label>
-                          <select name="hari" id="select" required class="custom-select">
+                          <select name="day" id="select" required class="custom-select">
                   <option value="">-- Hari ke --</option>
                   
-                  <?php foreach ($simulasi as $k): ?>
-                  <option value="<?php echo $k->hari ?>"><?php echo $k->hari ?></option>
+                  <?php
+                      for ($i=1; $i<=30; $i++){
+                  ?>
+                      <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                  <?php } ?>
+                </select>
+                        </fieldset>
+
+                          <fieldset class="form-group floating-label-form-group">
+                          <label for="email">Pilih Loket</label>
+                          <select name="id_loket" id="select" required class="custom-select">
+                  <option value="">-- Loket --</option>
+                  
+                 <?php $no=1; foreach ($lokets as $loket): ?>
+                      <option value="<?php echo $loket->id_loket ?>"><?php echo $loket->loket ?></option>
                   <?php endforeach; ?>
                 </select>
                         </fieldset>
 
                         <fieldset class="form-group floating-label-form-group">
-                          <label for="email">Jumlah Pengunjung Loket 1</label>
-                          <input type="number" name="loket" class="form-control  round <?php echo form_error('loket') ? 'is-invalid':'' ?>" id="email" required oninvalid="this.setCustomValidity('Harap Diisi...')" oninput="setCustomValidity('')">
-                       <font color="red"><?php echo form_error('nm_periode') ?></font>
-                        </fieldset>
-
-                        <fieldset class="form-group floating-label-form-group">
-                          <label for="email">Jumlah Pengunjung Loket 2</label>
-                          <input type="number" name="loket2" class="form-control  round <?php echo form_error('loket2') ? 'is-invalid':'' ?>" id="email" required oninvalid="this.setCustomValidity('Harap Diisi...')" oninput="setCustomValidity('')">
-                       <font color="red"><?php echo form_error('nm_periode') ?></font>
+                          <label for="email">Jumlah Pengunjung</label>
+                          <input type="number" name="jumlah_pengunjung" class="form-control  round <?php echo form_error('jumlah_pengunjung') ? 'is-invalid':'' ?>" id="email" required oninvalid="this.setCustomValidity('Harap Diisi...')" oninput="setCustomValidity('')">
+                       <font color="red"><?php echo form_error('jumlah_pengunjung') ?></font>
                         </fieldset>
                          
                       </div>
@@ -351,10 +237,114 @@
                                 <button type="submit"  class="btn btn-primary">
                                     <i class="fa fa-save"></i>&nbsp;Simpan
                                 </button>
+
+                      </div>
+                      </form>
+                    </div>
+                    </div>
+                  </div>
+
+
+                   <!-- modal -->
+<div class="modal modal-danger fade" id="modal-danger">
+    <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+      <h5 class="modal-title"><font color='white'>Konfirmasi Penghapusan</font></h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+      </div>
+      <div class="modal-body">
+      <p>Apakah anda yakin akan menghapus data ini ?</p>
+      </div>
+      <div class="modal-footer">
+      <a type="button" class="btn btn-secondary" data-dismiss="modal"><font color='white'><i class="fas fa-times"></i>&nbsp;Batal</font></a>
+      <a href="#" id="btn-delete" type="button" class="btn btn-danger mr-1"><i class="fas fa-trash"></i>&nbsp;Hapus</a>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+
+  <!-- Modal -->
+ <?php $no=0; foreach ($lokets as $loket): ?>
+                  <div class="modal fade text-left" id="modal-edit<?php echo $loket->id_loket ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header bg-primary">
+                      <h6 class="modal-title"><font color='white'>Edit Data Loket</font></h6>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                      <form action="<?php echo site_url('antrian/edit'); ?>" method="post">
+                      <input type="hidden" readonly value="<?=$loket->id_loket;?>" name="id_loket" class="form-control" >
+                      <div class="modal-body">
+                        <fieldset class="form-group floating-label-form-group">
+                          <label for="email">Nama Loket</label>
+                          <input type="text" value="<?php echo $loket->loket ?>" required name="loket" class="form-control  round <?php echo form_error('loket') ? 'is-invalid':'' ?>" id="email">
+                       <font color="red"><?php echo form_error('loket') ?></font>
+                        </fieldset>           
+      
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary mr-1"  data-dismiss="modal" value="close">
+                                    <i class="fas fa-times"></i>&nbsp;Keluar
+                                </button>
+                                <button type="submit"  class="btn btn-primary">
+                                    <i class="fa fa-save"></i>&nbsp;Save
+                                </button>
                         
                       </div>
                       </form>
                     </div>
                     </div>
                   </div>
+ <?php endforeach; ?>
+
+
+ <div class="modal fade text-left" id="modal-tambah-loket" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header bg-primary">
+                      <h6 class="modal-title"><font color='white'>Tambah Data Loket</font></h6>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                      <form action="<?php echo site_url('antrian/addAntrian'); ?>" method="post">
+                      <div class="modal-body">
+                        <fieldset class="form-group floating-label-form-group">
+                          <label for="email">Nama Loket</label>
+                          <input type="text" required name="loket" class="form-control  round <?php echo form_error('loket') ? 'is-invalid':'' ?>" id="email">
+                       <font color="red"><?php echo form_error('loket') ?></font>
+                        </fieldset>           
+      
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary mr-1"  data-dismiss="modal" value="close">
+                                    <i class="fas fa-times"></i>&nbsp;Keluar
+                                </button>
+                                <button type="submit"  class="btn btn-primary">
+                                    <i class="fa fa-save"></i>&nbsp;Save
+                                </button>
+                        
+                      </div>
+                      </form>
+                    </div>
+                    </div>
+                  </div>
+
+  
+
+  <script>
+function deleteConfirm(url){
+    $('#btn-delete').attr('href', url);
+    $('#deleteModal').modal();
+}
+</script>
                   

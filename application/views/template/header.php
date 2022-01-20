@@ -89,12 +89,6 @@
                     <div id="sidebar-menu">
                         <!-- Left Menu Start -->
                         <ul class="metismenu" id="side-menu">
-                          
-                            <li>
-                                <a href="<?php echo site_url();?>" class="waves-effect">
-                                    <font color=""><i class="fas fa-sync-alt "></i></font><span> Dashboard </span>
-                                </a>
-                            </li> 
 
 
                         <li>
@@ -103,13 +97,6 @@
                                 </a>
                             </li>    
 
-                             <li>
-                                <a href="<?php echo site_url();?>login" class="waves-effect">
-                                    <font color=""><i class="fas fa-sign-out-alt"></i></font><span> Logout </span>
-                                </a>
-                            </li>    
-
-                            
                         </ul>
                     </div>
                     <!-- Sidebar -->

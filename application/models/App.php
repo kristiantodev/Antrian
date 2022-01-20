@@ -14,7 +14,7 @@ class App extends CI_Model {
  
         if ($jumlah > 0)
         {
-            $this->db->insert_batch('antrian', $data);
+            $this->db->insert_batch('tbl_antrian', $data);
         }
     }
 }
